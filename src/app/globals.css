@@ -1,26 +1,231 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --font-display: "Playfair Display", Georgia, serif;
+  --font-body: "Manrope", Arial, sans-serif;
+  --font-script: "Great Vibes", cursive;
+  --font-elegant: "Cinzel", Georgia, serif;
+  --font-playful: "Fredoka", sans-serif;
+  --font-devanagari: "Noto Sans Devanagari", sans-serif;
+  --font-telugu: "Noto Sans Telugu", sans-serif;
+  --bg: #fbf5ef;
+  --bg-2: #f4e9df;
+  --fg: #2a1a14;
+  --muted: #7a645a;
+  --card: rgba(255, 255, 255, 0.62);
+  --card-strong: rgba(255, 255, 255, 0.85);
+  --border: rgba(122, 74, 58, 0.16);
+  --accent: #b76e79;
+  --accent-2: #e8a598;
+  --gold: #c9a14a;
+  --cream: #f5e6d3;
+  --pink: #f8c8d4;
+  --choco: #3b2218;
+  --ring: rgba(183, 110, 121, 0.45);
+  --glow: 0 0 0 1px rgba(183, 110, 121, 0.18), 0 10px 40px -12px rgba(183, 110, 121, 0.35);
+  color-scheme: light;
+}
+
+.dark {
+  --bg: #0e0907;
+  --bg-2: #1a110d;
+  --fg: #f8ede4;
+  --muted: #b39d91;
+  --card: rgba(40, 26, 20, 0.55);
+  --card-strong: rgba(44, 29, 22, 0.88);
+  --border: rgba(232, 165, 152, 0.16);
+  --accent: #e8a598;
+  --accent-2: #b76e79;
+  --gold: #e0bd6a;
+  --ring: rgba(232, 165, 152, 0.45);
+  --glow: 0 0 0 1px rgba(232, 165, 152, 0.14), 0 10px 50px -12px rgba(232, 165, 152, 0.3);
+  color-scheme: dark;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-bg: var(--bg);
+  --color-bg-2: var(--bg-2);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-card: var(--card);
+  --color-card-strong: var(--card-strong);
+  --color-line: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
+  --color-gold: var(--gold);
+  --color-cream: var(--cream);
+  --color-pink: var(--pink);
+  --color-choco: var(--choco);
+  --font-display: var(--font-display);
+  --font-sans: var(--font-body);
+  --font-script: var(--font-script);
+  --font-elegant: var(--font-elegant);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100dvh;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(60rem 40rem at 85% -10%, color-mix(in oklab, var(--accent) 22%, transparent), transparent 60%),
+    radial-gradient(50rem 30rem at -10% 30%, color-mix(in oklab, var(--gold) 12%, transparent), transparent 60%),
+    radial-gradient(40rem 30rem at 50% 110%, color-mix(in oklab, var(--pink) 14%, transparent), transparent 60%);
+}
+
+@layer components {
+  .glass {
+    background: var(--card);
+    border: 1px solid var(--border);
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+  }
+  .glass-strong {
+    background: var(--card-strong);
+    border: 1px solid var(--border);
+    backdrop-filter: blur(24px) saturate(150%);
+    -webkit-backdrop-filter: blur(24px) saturate(150%);
+  }
+  .glow {
+    box-shadow: var(--glow);
+  }
+  .text-gradient {
+    background: linear-gradient(120deg, var(--accent) 0%, var(--gold) 45%, var(--accent-2) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 9999px;
+    font-weight: 600;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, opacity 0.2s;
+    white-space: nowrap;
+  }
+  .btn:active {
+    transform: scale(0.97);
+  }
+  .btn:disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  .btn-primary {
+    color: #1a0f0b;
+    background: linear-gradient(120deg, #f4c7c3, #e8a598 40%, #c9a14a);
+    box-shadow: 0 8px 30px -8px rgba(232, 165, 152, 0.7);
+  }
+  .btn-primary:hover {
+    box-shadow: 0 10px 40px -6px rgba(232, 165, 152, 0.95);
+    transform: translateY(-1px);
+  }
+  .btn-ghost {
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--fg);
+  }
+  .btn-ghost:hover {
+    border-color: var(--accent);
+  }
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    border-radius: 9999px;
+    border: 1px solid var(--border);
+    padding: 0.35rem 0.8rem;
+    font-size: 0.8rem;
+    transition: all 0.15s ease;
+    background: var(--card);
+  }
+  .chip[data-active="true"] {
+    border-color: var(--accent);
+    background: color-mix(in oklab, var(--accent) 18%, transparent);
+    color: var(--fg);
+    box-shadow: 0 0 0 1px var(--accent) inset;
+  }
+  .field {
+    width: 100%;
+    border-radius: 0.9rem;
+    border: 1px solid var(--border);
+    background: var(--card);
+    padding: 0.7rem 0.95rem;
+    font-size: 0.92rem;
+    color: var(--fg);
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .field:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--ring);
+  }
+  .label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .range {
+    width: 100%;
+    accent-color: var(--accent);
+  }
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: color-mix(in oklab, var(--accent) 40%, transparent);
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: color-mix(in oklab, var(--accent) 45%, transparent);
+  border-radius: 9999px;
+}
+
+@keyframes float-y {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-14px) rotate(6deg); }
+}
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, var(--card) 25%, color-mix(in oklab, var(--accent) 12%, var(--card)) 50%, var(--card) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.6s infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }
